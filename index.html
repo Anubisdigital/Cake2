@@ -1,0 +1,1109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAKE PASTIES - Premium Custom Cakes</title>
+    <link rel="icon" type="image/png" href="cake.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Open+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #821415;
+            --primary-black: #000000;
+            --dark-gray: #333333;
+            --medium-gray: #666666;
+            --light-gray: #f5f5f5;
+            --white: #FFFFFF;
+            --accent: #821415;
+            --border-radius: 10px;
+            --shadow: 0 5px 15px rgba(130, 20, 21, 0.08);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            line-height: 1.6;
+            color: var(--primary-black);
+            background-color: var(--white);
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            line-height: 1.3;
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        h2 {
+            font-size: 2.2rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 10px;
+            font-weight: 600;
+        }
+
+        h2:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 70px;
+            height: 3px;
+            background: var(--primary-color);
+            border-radius: 2px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header & Navigation */
+        header {
+            background-color: var(--white);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(130, 20, 21, 0.1);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-img {
+            height: 50px;
+            width: auto;
+        }
+
+        .logo-text {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .logo-text span {
+            font-weight: 300;
+            letter-spacing: 2px;
+            color: var(--primary-black);
+        }
+
+        .main-nav {
+            display: flex;
+            list-style: none;
+        }
+
+        .main-nav li {
+            margin-left: 30px;
+        }
+
+        .main-nav li a {
+            text-decoration: none;
+            color: var(--dark-gray);
+            font-weight: 500;
+            font-size: 1rem;
+            transition: var(--transition);
+            position: relative;
+            padding: 5px 0;
+        }
+
+        .main-nav li a:hover {
+            color: var(--primary-color);
+        }
+
+        .main-nav li a:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background: var(--primary-color);
+            left: 0;
+            bottom: 0;
+            transition: var(--transition);
+        }
+
+        .main-nav li a:hover:after {
+            width: 100%;
+        }
+
+        .main-nav li a.active {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .main-nav li a.active:after {
+            width: 100%;
+        }
+
+        /* Mobile Navigation */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            cursor: pointer;
+            padding: 5px;
+            z-index: 1001;
+        }
+
+        .mobile-menu-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(130, 20, 21, 0.8);
+            z-index: 1999;
+        }
+
+        .mobile-menu-content {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 320px;
+            height: 100%;
+            background: var(--white);
+            z-index: 2000;
+            padding: 40px 25px;
+            transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: -5px 0 25px rgba(130, 20, 21, 0.15);
+            overflow-y: auto;
+        }
+
+        .mobile-menu-content.active {
+            right: 0;
+        }
+
+        .mobile-menu-overlay.active {
+            display: block;
+        }
+
+        .mobile-menu-close {
+            position: absolute;
+            top: 25px;
+            right: 25px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .mobile-menu-close:hover {
+            background: var(--light-gray);
+        }
+
+        .mobile-nav {
+            list-style: none;
+            margin-top: 40px;
+        }
+
+        .mobile-nav li {
+            margin-bottom: 20px;
+        }
+
+        .mobile-nav li a {
+            text-decoration: none;
+            color: var(--dark-gray);
+            font-weight: 600;
+            font-size: 1.2rem;
+            transition: var(--transition);
+            display: block;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .mobile-nav li a:hover {
+            color: var(--primary-color);
+            padding-left: 10px;
+            border-bottom-color: var(--primary-color);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+                        url('https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1280&q=80');
+            background-size: cover;
+            background-position: center;
+            color: var(--white);
+            padding: 140px 0 100px;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            color: var(--white);
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            max-width: 800px;
+            margin: 0 auto 40px;
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.8;
+        }
+
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 40px;
+        }
+
+        .cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 18px 35px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .cta-btn.primary {
+            background: var(--primary-color);
+            color: var(--white);
+            border: 2px solid var(--primary-color);
+        }
+
+        .cta-btn.primary:hover {
+            background: transparent;
+            color: var(--white);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(130, 20, 21, 0.3);
+        }
+
+        .cta-btn.secondary {
+            background: transparent;
+            color: var(--white);
+            border: 2px solid var(--white);
+        }
+
+        .cta-btn.secondary:hover {
+            background: var(--white);
+            color: var(--primary-color);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(255, 255, 255, 0.2);
+        }
+
+        /* Categories Section */
+        .categories {
+            padding: 100px 0;
+            background-color: var(--white);
+            text-align: center;
+        }
+
+        .categories h2 {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .categories p {
+            color: var(--medium-gray);
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto 60px;
+            line-height: 1.8;
+        }
+
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .category-card {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border: 1px solid rgba(130, 20, 21, 0.1);
+            cursor: pointer;
+            position: relative;
+            height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            text-decoration: none;
+        }
+
+        .category-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(130, 20, 21, 0.15);
+        }
+
+        .category-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
+            transition: transform 0.5s ease;
+        }
+
+        .category-card:hover .category-image {
+            transform: scale(1.05);
+        }
+
+        .category-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(to top, rgba(130, 20, 21, 0.9), transparent);
+            padding: 30px 20px;
+            z-index: 2;
+            color: var(--white);
+            text-align: center;
+        }
+
+        .category-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .category-count {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        /* Delivery Section */
+        .delivery {
+            padding: 100px 0;
+            background: var(--light-gray);
+            text-align: center;
+        }
+
+        .delivery-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .delivery-card {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 50px 40px;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(130, 20, 21, 0.1);
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .delivery-icon {
+            width: 100px;
+            height: 100px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px;
+            color: var(--white);
+            font-size: 2.5rem;
+        }
+
+        .delivery-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .delivery-feature {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 30px 20px;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(130, 20, 21, 0.1);
+            transition: var(--transition);
+        }
+
+        .delivery-feature:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(130, 20, 21, 0.1);
+        }
+
+        .delivery-feature i {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        .delivery-feature h4 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: var(--primary-black);
+        }
+
+        .price-tag {
+            display: inline-block;
+            background: var(--primary-color);
+            color: var(--white);
+            padding: 10px 25px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-top: 20px;
+            box-shadow: 0 3px 10px rgba(130, 20, 21, 0.2);
+        }
+
+        /* Why Choose Us */
+        .why-choose {
+            padding: 100px 0;
+            background-color: var(--white);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 40px;
+            margin-top: 50px;
+        }
+
+        .feature-card {
+            text-align: center;
+            padding: 40px 30px;
+            border-radius: var(--border-radius);
+            background: var(--white);
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(130, 20, 21, 0.1);
+            transition: var(--transition);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(130, 20, 21, 0.1);
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            color: var(--white);
+            font-size: 1.8rem;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, var(--primary-color) 0%, #6a1010 100%);
+            color: var(--white);
+            padding: 100px 0;
+            text-align: center;
+        }
+
+        .cta-section h2 {
+            color: var(--white);
+        }
+
+        .cta-section h2:after {
+            background: var(--white);
+        }
+
+        .cta-section p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 50px;
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.8;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 80px 0 40px;
+            border-top: 1px solid rgba(130, 20, 21, 0.1);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 50px;
+            margin-bottom: 50px;
+        }
+
+        .footer-column h3 {
+            color: var(--white);
+            margin-bottom: 25px;
+            font-size: 1.5rem;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .footer-column h3:after {
+            background: var(--white);
+            width: 50px;
+        }
+
+        .footer-column p, .footer-column a {
+            color: #ddd;
+            margin-bottom: 12px;
+            display: block;
+            text-decoration: none;
+            transition: var(--transition);
+            line-height: 1.7;
+        }
+
+        .footer-column a:hover {
+            color: var(--white);
+            padding-left: 8px;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #aaa;
+            font-size: 0.95rem;
+        }
+
+        .footer-contact-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .footer-contact-item i {
+            color: var(--white);
+            margin-top: 3px;
+            min-width: 20px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            h2 {
+                font-size: 2rem;
+            }
+            
+            .hero h1 {
+                font-size: 3rem;
+            }
+            
+            .main-nav {
+                display: none;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .categories-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .cta-btn {
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+            }
+            
+            .delivery-features {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                padding: 100px 0 60px;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+                padding: 0 15px;
+            }
+            
+            .categories, .delivery, .why-choose, .cta-section {
+                padding: 60px 0;
+            }
+            
+            .categories-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .category-card {
+                height: 250px;
+            }
+            
+            .delivery-card {
+                padding: 30px 20px;
+            }
+            
+            .mobile-menu-content {
+                width: 85%;
+                max-width: 320px;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .logo-img {
+                height: 40px;
+            }
+            
+            .logo-text {
+                font-size: 1.5rem;
+            }
+            
+            .category-name {
+                font-size: 1.3rem;
+            }
+            
+            .delivery-icon {
+                width: 80px;
+                height: 80px;
+                font-size: 2rem;
+            }
+            
+            .mobile-menu-content {
+                width: 280px;
+            }
+            
+            .footer-content {
+                gap: 35px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header with Navigation -->
+    <header>
+        <div class="container header-container">
+            <div class="logo-container">
+                <img src="cake.png" alt="CAKE PASTIES Logo" class="logo-img">
+                <div class="logo-text">CAKE <span>PASTIES</span></div>
+            </div>
+            
+            <!-- Desktop Navigation -->
+            <ul class="main-nav">
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="gallery.html">Gallery</a></li>
+              
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            
+            <!-- Mobile Menu Button -->
+            <button class="mobile-menu-btn" id="mobile-menu-open">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu-overlay" id="mobile-menu-overlay"></div>
+
+    <!-- Mobile Menu Content -->
+    <div class="mobile-menu-content" id="mobile-menu-content">
+        <button class="mobile-menu-close" id="mobile-menu-close">
+            <i class="fas fa-times"></i>
+        </button>
+        <ul class="mobile-nav">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="gallery.html">Gallery</a></li>
+          
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+        <div style="margin-top: 40px; padding-top: 30px; border-top: 1px solid var(--light-gray);">
+            <div class="footer-contact-item">
+                <i class="fas fa-phone"></i>
+                <span>0760303949</span>
+            </div>
+            <div class="footer-contact-item">
+                <i class="fas fa-envelope"></i>
+                <span>cakesandpastriesbytesi@gmail.com</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Delicious Custom Cakes for Every Celebration</h1>
+            <p>CAKE PASTIES creates beautiful, handcrafted cakes for birthdays, weddings, anniversaries, and all your special moments. Each cake is made with love and the finest ingredients.</p>
+            
+            <div class="cta-buttons">
+                <a href="gallery.html" class="cta-btn primary">
+                    <i class="fas fa-birthday-cake"></i>
+                    Browse Our Gallery
+                </a>
+                <a href="contact.html" class="cta-btn secondary">
+                    <i class="fas fa-calendar-check"></i>
+                    Order Your Cake
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section class="categories">
+        <div class="container">
+            <h2>Our Cake Categories</h2>
+            <p>Explore our delicious range of custom cakes for every occasion. Click on any category to view our gallery.</p>
+            
+            <div class="categories-grid">
+                <!-- Wedding Cakes -->
+                <a href="gallery.html#wedding" class="category-card">
+                    <img src="https://images.unsplash.com/photo-1535254973040-607b474cb50d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" 
+                         alt="Wedding Cakes" class="category-image">
+                    <div class="category-overlay">
+                        <div class="category-name">Wedding Cakes</div>
+                        <div class="category-count">Elegant & Romantic</div>
+                    </div>
+                </a>
+                
+                <!-- Birthday Cakes -->
+                <a href="gallery.html#birthday" class="category-card">
+                    <img src="https://images.unsplash.com/photo-1559620192-032c64bc86af?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" 
+                         alt="Birthday Cakes" class="category-image">
+                    <div class="category-overlay">
+                        <div class="category-name">Birthday Cakes</div>
+                        <div class="category-count">Fun & Celebratory</div>
+                    </div>
+                </a>
+                
+                <!-- Kids Cakes -->
+                <a href="gallery.html#for-kids" class="category-card">
+                    <img src="https://images.unsplash.com/photo-1623334044303-241021148842?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w-800&q=80" 
+                         alt="Kids Cakes" class="category-image">
+                    <div class="category-overlay">
+                        <div class="category-name">Kids Cakes</div>
+                        <div class="category-count">Colorful & Playful</div>
+                    </div>
+                </a>
+                
+                <!-- Anniversary Cakes -->
+                <a href="gallery.html#anniversary" class="category-card">
+                    <img src="https://images.unsplash.com/photo-1574085733277-851d9d856a3a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" 
+                         alt="Anniversary Cakes" class="category-image">
+                    <div class="category-overlay">
+                        <div class="category-name">Anniversary Cakes</div>
+                        <div class="category-count">Romantic & Special</div>
+                    </div>
+                </a>
+                
+                <!-- Theme Based -->
+                <a href="gallery.html#theme-base" class="category-card">
+                    <img src="https://images.unsplash.com/photo-1596223575327-99a5c14d6c0a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" 
+                         alt="Theme Based Cakes" class="category-image">
+                    <div class="category-overlay">
+                        <div class="category-name">Theme Based</div>
+                        <div class="category-count">Custom & Creative</div>
+                    </div>
+                </a>
+                
+                <!-- Baby Shower -->
+                <a href="gallery.html#Baby-shawer" class="category-card">
+                    <img src="https://images.unsplash.com/photo-1621875981741-c5d8c02ee96f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" 
+                         alt="Baby Shower Cakes" class="category-image">
+                    <div class="category-overlay">
+                        <div class="category-name">Baby Shower</div>
+                        <div class="category-count">Sweet & Adorable</div>
+                    </div>
+                </a>
+                
+                <!-- Personalized -->
+                <a href="gallery.html#Name-&-message" class="category-card">
+                    <img src="https://images.unsplash.com/photo-1571115764595-644a1f56a55c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" 
+                         alt="Personalized Cakes" class="category-image">
+                    <div class="category-overlay">
+                        <div class="category-name">Name & Message</div>
+                        <div class="category-count">Personalized Cakes</div>
+                    </div>
+                </a>
+                
+                <!-- Other Cakes -->
+                <a href="gallery.html#other" class="category-card">
+                    <img src="https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" 
+                         alt="Other Cakes" class="category-image">
+                    <div class="category-overlay">
+                        <div class="category-name">Other Cakes</div>
+                        <div class="category-count">Special Occasions</div>
+                    </div>
+                </a>
+            </div>
+            
+            <a href="gallery.html" class="cta-btn primary" style="max-width: 300px; margin: 0 auto;">
+                <i class="fas fa-images"></i>
+                View All Categories
+            </a>
+        </div>
+    </section>
+
+    <!-- Delivery Section -->
+    <section class="delivery">
+        <div class="container">
+            <h2>Delivery Services</h2>
+            <p>We offer reliable delivery services to bring your delicious cakes right to your doorstep!</p>
+            
+            <div class="delivery-card">
+                <div class="delivery-icon">
+                    <i class="fas fa-truck"></i>
+                </div>
+                
+                <h3>Home Delivery at Your Convenience</h3>
+                <p>We deliver freshly made cakes throughout Kampala and surrounding areas. Our delivery team handles your cakes with care to ensure they arrive in perfect condition.</p>
+                
+                <div class="price-tag">Delivery: From 15,000 UGX</div>
+                
+                <div class="delivery-features">
+                    <div class="delivery-feature">
+                        <i class="fas fa-clock"></i>
+                        <h4>Scheduled Delivery</h4>
+                        <p>Choose your preferred delivery time to match your celebration schedule.</p>
+                    </div>
+                    
+                    <div class="delivery-feature">
+                        <i class="fas fa-shield-alt"></i>
+                        <h4>Safe Transport</h4>
+                        <p>Special packaging and careful handling to keep your cake perfect during transit.</p>
+                    </div>
+                    
+                    <div class="delivery-feature">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <h4>Area Coverage</h4>
+                        <p>We deliver to most areas in and around Kampala. Contact us for specific locations.</p>
+                    </div>
+                    
+                    <div class="delivery-feature">
+                        <i class="fas fa-gift"></i>
+                        <h4>Special Handling</h4>
+                        <p>Delicate cakes and special designs receive extra attention during delivery.</p>
+                    </div>
+                </div>
+                
+                <p style="margin-top: 40px; font-style: italic; color: var(--medium-gray);">
+                    <i class="fas fa-info-circle" style="margin-right: 8px;"></i>
+                    Delivery cost varies based on distance and cake size. Contact us for an exact quote.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us -->
+    <section class="why-choose">
+        <div class="container">
+            <h2 style="text-align: center;">Why Choose CAKE PASTIES?</h2>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-award"></i>
+                    </div>
+                    <h3>Premium Quality</h3>
+                    <p>We use only the finest ingredients to create delicious, high-quality cakes that taste as good as they look.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-palette"></i>
+                    </div>
+                    <h3>Custom Designs</h3>
+                    <p>Every cake is custom-made to your specifications. Share your vision and we'll bring it to life.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h3>Made with Love</h3>
+                    <p>Each cake is crafted with attention to detail and a passion for creating memorable celebrations.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3>On-Time Delivery</h3>
+                    <p>We respect your time and ensure your cake is delivered fresh and on schedule for your event.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <h2>Ready to Order Your Perfect Cake?</h2>
+            <p>Contact us today to discuss your cake requirements, get a quote, or place an order. Let's create something delicious together!</p>
+            
+            <div class="cta-buttons">
+                <a href="contact.html" class="cta-btn secondary">
+                    <i class="fas fa-phone-alt"></i>
+                    Contact Us Now
+                </a>
+                <a href="gallery.html" class="cta-btn primary">
+                    <i class="fas fa-birthday-cake"></i>
+                    Get Inspired
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>CAKE PASTIES</h3>
+                    <p>Premium custom cakes for all occasions. We specialize in creating beautiful, delicious cakes that make your celebrations memorable.</p>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <a href="index.html">Home</a>
+                    <a href="gallery.html">Cake Gallery</a>
+             
+                    <a href="contact.html">Contact Us</a>
+                </div>
+                <div class="footer-column">
+                    <h3>Contact Info</h3>
+                    <div class="footer-contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Kampala, Uganda</span>
+                    </div>
+                    <div class="footer-contact-item">
+                        <i class="fas fa-phone"></i>
+                        <span>0760303949</span>
+                    </div>
+                    <div class="footer-contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <span>cakesandpastriesbytesi@gmail.com</span>
+                    </div>
+                    <div class="footer-contact-item">
+                        <i class="fas fa-clock"></i>
+                        <span>Mon-Sat: 8:00 AM - 7:00 PM</span>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 CAKE PASTIES. All rights reserved. | Delicious Custom Cakes</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu functionality
+        const mobileMenuOpen = document.getElementById('mobile-menu-open');
+        const mobileMenuClose = document.getElementById('mobile-menu-close');
+        const mobileMenuContent = document.getElementById('mobile-menu-content');
+        const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
+        
+        // Open mobile menu
+        mobileMenuOpen.addEventListener('click', function() {
+            mobileMenuContent.classList.add('active');
+            mobileMenuOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+        
+        // Close mobile menu
+        function closeMobileMenu() {
+            mobileMenuContent.classList.remove('active');
+            mobileMenuOverlay.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+        
+        mobileMenuClose.addEventListener('click', closeMobileMenu);
+        mobileMenuOverlay.addEventListener('click', closeMobileMenu);
+        
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('.mobile-nav a').forEach(link => {
+            link.addEventListener('click', closeMobileMenu);
+        });
+        
+        // Close mobile menu on escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeMobileMenu();
+            }
+        });
+
+        // Category card click animation
+        document.querySelectorAll('.category-card').forEach(card => {
+            card.addEventListener('click', function(e) {
+                // Add a click animation
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 200);
+            });
+        });
+    </script>
+</body>
+</html>
