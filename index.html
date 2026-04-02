@@ -1,0 +1,990 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Pearl Cakes & Events | Artisan Bakery</title>
+    <link rel="icon" type="image/png" href="cak.png">
+    
+    <!-- Fonts & Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Montserrat:wght@300;400;600;800&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-app.js";
+        import { getFirestore, collection, query, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-firestore.js";
+        
+        const firebaseConfig = {
+            apiKey: "AIzaSyCO-9GOjuhmkZ3wmbzi9mT64N4LY_n4m10",
+            authDomain: "cake2-ced7e.firebaseapp.com",
+            projectId: "cake2-ced7e",
+            storageBucket: "cake2-ced7e.firebasestorage.app",
+            messagingSenderId: "747469187550",
+            appId: "1:747469187550:web:3b2b93eac1e53899e3154f",
+            measurementId: "G-7S40DH6MRM"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        window.firebaseDB = db;
+        window.firebaseModules = { collection, query, orderBy, onSnapshot };
+    </script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #821415;
+            --primary-light: #a31d1f;
+            --accent: #d4af37;
+            --white: #ffffff;
+            --dark: #1a1a1a;
+            --glass: rgba(255, 255, 255, 0.96);
+            --shadow: 0 15px 35px rgba(0,0,0,0.08);
+            --transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #fefaf5;
+            color: var(--dark);
+            line-height: 1.5;
+            overflow-x: hidden;
+        }
+
+        /* ---------- HEADER & NAV (NO ADMIN) ---------- */
+        header {
+            background: var(--white);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+        }
+
+        .nav-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 24px;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .logo-img {
+            height: 46px;
+            width: auto;
+            filter: drop-shadow(0 2px 6px rgba(0,0,0,0.1));
+        }
+
+        .brand-name {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+            font-size: 1.5rem;
+            letter-spacing: -0.5px;
+            color: var(--primary);
+        }
+
+        .menu-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+
+        .menu-trigger {
+            background: var(--primary);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+        }
+
+        .menu-trigger:hover {
+            background: var(--dark);
+            transform: translateY(-2px);
+        }
+
+        .dropdown-content {
+            position: absolute;
+            right: 0;
+            top: 120%;
+            background: var(--white);
+            min-width: 210px;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: var(--transition);
+            border: 1px solid #f0e6e0;
+            z-index: 200;
+        }
+
+        .menu-wrapper:hover .dropdown-content {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-content a {
+            color: var(--dark);
+            padding: 12px 20px;
+            text-decoration: none;
+            display: block;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: 0.2s;
+            border-bottom: 1px solid #f9ece8;
+        }
+
+        .dropdown-content a i {
+            margin-right: 12px;
+            color: var(--primary);
+            width: 20px;
+        }
+
+        .dropdown-content a:hover {
+            background: #fff5f0;
+            color: var(--primary);
+            padding-left: 26px;
+        }
+
+        /* HERO SECTION */
+        .hero {
+            position: relative;
+            height: 80vh;
+            min-height: 520px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('cak1.jpg') center/cover no-repeat;
+            filter: brightness(0.45) contrast(1.05);
+            transform: scale(1.05);
+            animation: slowZoom 20s infinite alternate;
+        }
+
+        @keyframes slowZoom {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.12); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            padding: 0 20px;
+            max-width: 850px;
+        }
+
+        .hero-badge {
+            background: var(--accent);
+            color: var(--dark);
+            padding: 5px 16px;
+            border-radius: 40px;
+            font-weight: 800;
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.4rem, 7vw, 4.5rem);
+            line-height: 1.2;
+            margin-bottom: 18px;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.4);
+        }
+
+        .hero p {
+            font-size: clamp(1rem, 3vw, 1.2rem);
+            font-weight: 300;
+            margin-bottom: 32px;
+            opacity: 0.9;
+        }
+
+        .hero-btns {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-main {
+            padding: 12px 28px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--white);
+            color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--white);
+            color: var(--white);
+        }
+
+        .btn-outline:hover {
+            background: var(--white);
+            color: var(--dark);
+        }
+
+        .scroll-down {
+            position: absolute;
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+            color: white;
+            font-size: 1.4rem;
+            opacity: 0.7;
+        }
+
+        @keyframes bounce {
+            0%,100% { transform: translateY(0) translateX(-50%); }
+            50% { transform: translateY(-8px) translateX(-50%); }
+        }
+
+        /* SECTION HEADER */
+        .section-header {
+            text-align: center;
+            padding: 50px 20px 20px;
+        }
+
+        .section-header h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2rem;
+            color: var(--primary);
+            position: relative;
+            display: inline-block;
+            padding-bottom: 8px;
+        }
+
+        .section-header h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 20%;
+            width: 60%;
+            height: 3px;
+            background: var(--accent);
+            border-radius: 4px;
+        }
+
+        /* PRODUCT GRID - RESPONSIVE, NO WEIRD HEIGHTS */
+        .grid-wrapper {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 16px 24px;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 28px;
+            margin-bottom: 40px;
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: 28px;
+            overflow: hidden;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.05);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #f3e9e4;
+            height: 100%;
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 35px rgba(130,20,21,0.12);
+            border-color: var(--primary-light);
+        }
+
+        .card-img-container {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 4 / 3;
+            overflow: hidden;
+            background: #f4ede8;
+        }
+
+        .card-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .card:hover .card-img {
+            transform: scale(1.05);
+        }
+
+        .price-tag {
+            position: absolute;
+            bottom: 12px;
+            left: 12px;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(4px);
+            color: var(--accent);
+            padding: 6px 12px;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 0.75rem;
+            letter-spacing: 0.3px;
+        }
+
+        .card-info {
+            padding: 18px 16px 20px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: white;
+        }
+
+        .product-name {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 8px;
+            font-family: 'Montserrat', sans-serif;
+            cursor: pointer;
+            transition: color 0.2s;
+            display: inline-block;
+            width: fit-content;
+            max-width: 100%;
+        }
+
+        .product-name.truncated-name {
+            color: var(--primary);
+            text-decoration: underline;
+            text-decoration-style: dotted;
+            text-underline-offset: 4px;
+        }
+
+        .product-name.truncated-name:hover {
+            color: var(--primary-light);
+        }
+
+        .product-desc {
+            font-size: 0.8rem;
+            color: #6f6f6f;
+            margin-bottom: 18px;
+            line-height: 1.45;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        /* ORDER BUTTON - TEXT "Order" only */
+        .order-btn {
+            margin-top: auto;
+            width: 100%;
+            padding: 12px;
+            border-radius: 40px;
+            background: var(--primary);
+            color: white;
+            font-weight: 700;
+            font-size: 0.85rem;
+            border: none;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .order-btn:hover {
+            background: var(--dark);
+            transform: scale(0.98);
+        }
+
+        /* FILTER PILLS (all categories from admin) */
+        .filter-container {
+            max-width: 1280px;
+            margin: 10px auto 0;
+            padding: 0 20px 20px;
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            scrollbar-width: thin;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .filter-pill {
+            padding: 8px 24px;
+            background: white;
+            border: 1px solid #e2d4cd;
+            border-radius: 60px;
+            white-space: nowrap;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.8rem;
+            transition: 0.2s;
+        }
+
+        .filter-pill.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* FULLSCREEN MODAL for truncated text */
+        .fullscreen-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.94);
+            backdrop-filter: blur(14px);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            visibility: hidden;
+            opacity: 0;
+            transition: all 0.25s ease;
+        }
+
+        .fullscreen-modal.active {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .modal-card {
+            background: white;
+            max-width: 520px;
+            width: 85%;
+            border-radius: 48px;
+            padding: 36px 32px;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 30px 40px rgba(0,0,0,0.4);
+            animation: modalPop 0.3s ease;
+        }
+
+        @keyframes modalPop {
+            from { transform: scale(0.92); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .modal-card h3 {
+            font-size: 1.8rem;
+            color: var(--primary);
+            font-family: 'Playfair Display', serif;
+            margin-bottom: 20px;
+        }
+
+        .modal-card p {
+            font-size: 1rem;
+            color: #2d2d2d;
+            margin-bottom: 28px;
+            line-height: 1.5;
+        }
+
+        .close-modal-btn {
+            background: var(--primary);
+            border: none;
+            color: white;
+            padding: 12px 32px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .close-modal-btn:hover {
+            background: var(--dark);
+        }
+
+        /* FOOTER (NEW) */
+        .footer {
+            background: #1e1a17;
+            color: #e2cfc4;
+            padding: 48px 24px 24px;
+            margin-top: 60px;
+            border-top: 5px solid var(--accent);
+        }
+
+        .footer-inner {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 40px;
+        }
+
+        .footer-col h4 {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--accent);
+            margin-bottom: 18px;
+            font-size: 1.2rem;
+        }
+
+        .footer-col p, .footer-col a {
+            color: #cdbcb0;
+            text-decoration: none;
+            font-size: 0.9rem;
+            display: block;
+            margin-bottom: 10px;
+            transition: 0.2s;
+        }
+
+        .footer-col a:hover {
+            color: var(--accent);
+            transform: translateX(4px);
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 18px;
+            margin-top: 12px;
+        }
+
+        .social-icons a {
+            font-size: 1.5rem;
+            color: #cdbcb0;
+        }
+
+        .social-icons a:hover {
+            color: var(--accent);
+        }
+
+        .copyright {
+            text-align: center;
+            margin-top: 45px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,215,175,0.2);
+            font-size: 0.8rem;
+        }
+
+        /* FLOATING WHATSAPP */
+        .floating-contact {
+            position: fixed;
+            right: 22px;
+            bottom: 100px;
+            z-index: 1001;
+        }
+        .whatsapp-float {
+            width: 55px;
+            height: 55px;
+            background: #25D366;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.9rem;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+            transition: 0.2s;
+        }
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+        }
+
+        /* LOADER & EMPTY */
+        .loader-container {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 50px;
+        }
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3e0d8;
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 15px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .empty-state {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 60px;
+            color: #b48c7c;
+        }
+
+        @media (max-width: 650px) {
+            .product-grid { gap: 18px; }
+            .card-info { padding: 14px; }
+            .hero { height: 70vh; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="nav-container">
+        <a href="#" class="logo-area">
+            <img src="cak.png" alt="Pearl Logo" class="logo-img">
+            <span class="brand-name">PEARL</span>
+        </a>
+        <div class="menu-wrapper">
+            <button class="menu-trigger"><i class="fas fa-bars"></i> Explore</button>
+            <div class="dropdown-content">
+                <a href="#"><i class="fas fa-home"></i> Home</a>
+                <a href="location.html"><i class="fas fa-map-marker-alt"></i> Our Location</a>
+                <a href="contact.html"><i class="fas fa-envelope"></i> Contact Us</a>
+                <a href="tel:0703100226"><i class="fas fa-phone-alt"></i> Quick Call</a>
+                <!-- ADMIN LINK REMOVED -->
+            </div>
+        </div>
+    </div>
+</header>
+
+<section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+        <span class="hero-badge">Crafting Sweet Memories</span>
+        <h1>Elegance In <br>Every Bite.</h1>
+        <p>Premium Cakes & Events Management located at Arua Park. We turn your celebrations into masterpieces.</p>
+        <div class="hero-btns">
+            <a href="#featured" class="btn-main btn-primary"><i class="fas fa-shopping-cart"></i> View Products</a>
+            <a href="https://wa.me/256786979680" class="btn-main btn-outline"><i class="fab fa-whatsapp"></i> Chat with Us</a>
+        </div>
+    </div>
+    <div class="scroll-down"><i class="fas fa-chevron-down"></i></div>
+</section>
+
+<div class="section-header" id="featured">
+    <h2>Our Cake Collections</h2>
+    <p>Artisanal creations for every celebration</p>
+</div>
+
+<!-- Category Filter (full categories from admin) -->
+<div class="filter-container" id="catFilter">
+    <div class="filter-pill active" data-cat="all">Everything</div>
+    <div class="filter-pill" data-cat="wedding">Wedding</div>
+    <div class="filter-pill" data-cat="birthday">Birthday</div>
+    <div class="filter-pill" data-cat="for kids">For Kids</div>
+    <div class="filter-pill" data-cat="theme-base">Theme Base</div>
+    <div class="filter-pill" data-cat="Baby shawer">Baby Shower</div>
+    <div class="filter-pill" data-cat="anniversary">Anniversary</div>
+    <div class="filter-pill" data-cat="Name & message">Name & Message</div>
+    <div class="filter-pill" data-cat="other">Other</div>
+</div>
+
+<main class="grid-wrapper">
+    <div class="product-grid" id="dynamicProductGrid">
+        <div class="loader-container" id="loadingGrid">
+            <div class="spinner"></div>
+            <p>Loading pearl creations...</p>
+        </div>
+    </div>
+</main>
+
+<!-- Floating WhatsApp -->
+<div class="floating-contact">
+    <a href="https://wa.me/256786979680" class="whatsapp-float"><i class="fab fa-whatsapp"></i></a>
+</div>
+
+<!-- FULLSCREEN MODAL -->
+<div id="textModal" class="fullscreen-modal">
+    <div class="modal-card">
+        <h3 id="modalTitle"></h3>
+        <p id="modalDescription"></p>
+        <button class="close-modal-btn" id="closeModalBtn">Close ✕</button>
+    </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+    <div class="footer-inner">
+        <div class="footer-col">
+            <h4>Pearl Cakes & Events</h4>
+            <p>📍 Arua Park, Uganda</p>
+            <p>📞 +256 786 979680</p>
+            <p>✉️ hello@pearlcakes.ug</p>
+        </div>
+        <div class="footer-col">
+            <h4>Quick Links</h4>
+            <a href="#featured">Our Cakes</a>
+            <a href="https://wa.me/256786979680">Order via WhatsApp</a>
+            <a href="location.html">Find Us</a>
+        </div>
+        <div class="footer-col">
+            <h4>Follow Us</h4>
+            <div class="social-icons">
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-whatsapp"></i></a>
+            </div>
+        </div>
+    </div>
+    <div class="copyright">
+        <p>© 2025 Pearl Cakes & Events – Elegance in Every Bite. All rights reserved.</p>
+    </div>
+</footer>
+
+<script>
+    // ---------- GLOBALS ----------
+    let allProducts = [];
+    let currentFilter = "all";
+    // fallback images cak1.jpg to cak8.jpg as requested
+    const localImagesPool = ['cak1.jpg', 'cak2.jpg', 'cak3.jpg', 'cak4.jpg', 'cak5.jpg', 'cak6.jpg', 'cak7.jpg', 'cak8.jpg'];
+    
+    // modal elements
+    const modal = document.getElementById('textModal');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalDesc = document.getElementById('modalDescription');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+    
+    function closeModal() { modal.classList.remove('active'); }
+    closeModalBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => { if(e.target === modal) closeModal(); });
+    
+    // show fullscreen text (used when truncated name clicked)
+    function showFullscreenText(name, description) {
+        modalTitle.innerText = name;
+        modalDesc.innerText = description || "Delicious premium creation from Pearl Bakery. Contact us for orders!";
+        modal.classList.add('active');
+    }
+    
+    // apply truncation logic to product name elements: if length > 10, truncate + click modal
+    function applyTruncationAndModal() {
+        const productNameElements = document.querySelectorAll('.product-name');
+        productNameElements.forEach(el => {
+            const fullName = el.getAttribute('data-fullname') || el.innerText.trim();
+            if (!el.getAttribute('data-fullname')) el.setAttribute('data-fullname', fullName);
+            // find description inside same card
+            const cardInfo = el.closest('.card-info');
+            const descElem = cardInfo ? cardInfo.querySelector('.product-desc') : null;
+            const description = descElem ? descElem.innerText.trim() : 'A delightful cake from Pearl.';
+            
+            if (fullName.length > 10) {
+                const truncated = fullName.substring(0, 10) + '...';
+                el.innerText = truncated;
+                el.classList.add('truncated-name');
+                // remove previous listener and attach new
+                el.removeEventListener('click', nameClickHandler);
+                el.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const originalName = el.getAttribute('data-fullname');
+                    showFullscreenText(originalName, description);
+                });
+            } else {
+                el.classList.remove('truncated-name');
+                // for short names, optionally allow click too? But spec only for exceeding 10 letters
+                el.removeEventListener('click', nameClickHandler);
+            }
+        });
+    }
+    function nameClickHandler(e) {} // placeholder
+    
+    // render product grid from filtered products
+    function renderProductGrid(products) {
+        const grid = document.getElementById('dynamicProductGrid');
+        if (!grid) return;
+        grid.innerHTML = '';
+        
+        if (products.length === 0) {
+            grid.innerHTML = `<div class="empty-state"><i class="fas fa-cake-candles"></i><p>No cakes in this category. Explore our full collection!</p><button onclick="window.filterData('all')" class="order-btn" style="width:auto; margin:20px auto;">Show All</button></div>`;
+            return;
+        }
+        
+        products.forEach((prod, idx) => {
+            // image handling: use product image if exists and valid, otherwise cycle localImagesPool
+            let imgUrl = prod.image && prod.image.startsWith('http') ? prod.image : localImagesPool[idx % localImagesPool.length];
+            // fallback if image missing
+            if (!prod.image || prod.image === '') imgUrl = localImagesPool[idx % localImagesPool.length];
+            
+            const priceDisplay = prod.price ? (prod.price.toString().includes('UGX') ? prod.price : `UGX ${prod.price}`) : 'Inquire Price';
+            const productTitle = prod.title || 'Pearl Special';
+            const productDesc = prod.description || 'Handcrafted with love, perfect for your celebration.';
+            const categoryClass = prod.category || 'other';
+            
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.innerHTML = `
+                <div class="card-img-container">
+                    <img src="${imgUrl}" class="card-img" alt="${productTitle}" onerror="this.src='${localImagesPool[idx % localImagesPool.length]}';">
+                    <div class="price-tag">${priceDisplay}</div>
+                </div>
+                <div class="card-info">
+                    <div class="product-name" data-fullname="${escapeHtml(productTitle)}">${escapeHtml(productTitle)}</div>
+                    <div class="product-desc">${escapeHtml(productDesc)}</div>
+                    <a href="https://wa.me/256786979680?text=Hello Pearl, I am interested in: ${encodeURIComponent(productTitle)}" class="order-btn">
+                        <i class="fab fa-whatsapp"></i> Order
+                    </a>
+                </div>
+            `;
+            grid.appendChild(card);
+        });
+        // apply truncation after rendering
+        applyTruncationAndModal();
+    }
+    
+    function escapeHtml(str) { 
+        if(!str) return '';
+        return str.replace(/[&<>]/g, function(m){
+            if(m === '&') return '&amp;';
+            if(m === '<') return '&lt;';
+            if(m === '>') return '&gt;';
+            return m;
+        });
+    }
+    
+    // filter function exposed globally
+    window.filterData = function(category) {
+        currentFilter = category;
+        // update active pill style
+        document.querySelectorAll('.filter-pill').forEach(pill => {
+            pill.classList.remove('active');
+            if(pill.getAttribute('data-cat') === category || (category === 'all' && pill.getAttribute('data-cat') === 'all')) {
+                pill.classList.add('active');
+            }
+        });
+        
+        if(category === 'all') {
+            renderProductGrid(allProducts);
+        } else {
+            const filtered = allProducts.filter(p => p.category && p.category.toLowerCase() === category.toLowerCase());
+            renderProductGrid(filtered);
+        }
+    };
+    
+    // attach filter pill listeners
+    function initFilters() {
+        document.querySelectorAll('.filter-pill').forEach(pill => {
+            const cat = pill.getAttribute('data-cat');
+            if(cat) {
+                pill.removeEventListener('click', filterHandler);
+                pill.addEventListener('click', () => window.filterData(cat));
+            }
+        });
+    }
+    function filterHandler() {}
+    
+    // ---------- FIREBASE REAL-TIME FETCH ----------
+    function initializePearlApp() {
+        if (!window.firebaseDB) { 
+            setTimeout(initializePearlApp, 400); 
+            return; 
+        }
+        const { collection, query, orderBy, onSnapshot } = window.firebaseModules;
+        const productRef = collection(window.firebaseDB, "glass_products");
+        const q = query(productRef, orderBy("createdAt", "desc"));
+        const loadingEl = document.getElementById('loadingGrid');
+        
+        onSnapshot(q, (snapshot) => {
+            if(loadingEl) loadingEl.style.display = 'none';
+            allProducts = [];
+            snapshot.forEach(doc => {
+                const data = doc.data();
+                allProducts.push({
+                    id: doc.id,
+                    title: data.title || 'Untitled',
+                    description: data.description || '',
+                    price: data.price || 'Inquire',
+                    category: data.category || 'other',
+                    image: data.image || '',
+                    createdAt: data.createdAt || Date.now()
+                });
+            });
+            // if no products from firebase, show demo placeholders using cak1-8 images (so website never empty)
+            if(allProducts.length === 0) {
+                // generate sample local products to showcase categories & images (per requirement)
+                const sampleCategories = ['wedding', 'birthday', 'for kids', 'theme-base', 'Baby shawer', 'anniversary', 'Name & message', 'other'];
+                for(let i=0; i<8; i++) {
+                    allProducts.push({
+                        id: `sample_${i}`,
+                        title: `Pearl ${sampleCategories[i%sampleCategories].charAt(0).toUpperCase() + sampleCategories[i%sampleCategories].slice(1)} Cake`,
+                        description: 'Elegant design, premium ingredients. Perfect for your special day.',
+                        price: i%2===0 ? 'UGX 95,000' : 'UGX 125,000',
+                        category: sampleCategories[i%sampleCategories],
+                        image: localImagesPool[i % localImagesPool.length],
+                        createdAt: Date.now() - i*1000
+                    });
+                }
+            }
+            // initial render with current filter
+            renderProductGrid(currentFilter === 'all' ? allProducts : allProducts.filter(p => p.category && p.category.toLowerCase() === currentFilter.toLowerCase()));
+            initFilters();
+        }, (error) => {
+            console.warn("Firebase error, using local fallback", error);
+            if(loadingEl) loadingEl.style.display = 'none';
+            // fallback local products using all cak1..cak8 images
+            const fallbackProducts = [];
+            const cats = ['wedding', 'birthday', 'for kids', 'theme-base', 'Baby shawer', 'anniversary', 'Name & message', 'other'];
+            for(let i=0; i<8; i++) {
+                fallbackProducts.push({
+                    id: `fallback_${i}`,
+                    title: `Pearl ${cats[i%cats].charAt(0).toUpperCase() + cats[i%cats].slice(1)} Creation`,
+                    description: 'Luxury cake baked with passion, available for order.',
+                    price: i===0 ? 'UGX 250k+' : `UGX ${85 + i*10}k`,
+                    category: cats[i%cats],
+                    image: localImagesPool[i % localImagesPool.length],
+                });
+            }
+            allProducts = fallbackProducts;
+            renderProductGrid(currentFilter === 'all' ? allProducts : allProducts.filter(p => p.category && p.category.toLowerCase() === currentFilter.toLowerCase()));
+            initFilters();
+        });
+    }
+    
+    // initial load
+    document.addEventListener('DOMContentLoaded', () => {
+        initializePearlApp();
+        // smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if(target) target.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+    });
+</script>
+</body>
+  </html>
